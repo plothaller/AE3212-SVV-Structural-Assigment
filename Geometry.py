@@ -97,6 +97,5 @@ def idealization(R, n_s, t_st, h_st, w_st, t_f, h_f, t_s):
     #plt.close("all")
 
 
-
 idealization(3, 16, 1.2/1000, 1.5/100, 2/100, 2.5/100, 1.85, 1/100)
 
