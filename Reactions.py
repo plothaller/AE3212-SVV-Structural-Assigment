@@ -32,7 +32,7 @@ def ReactionsFunction(L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
                         [q*L],
                         [q/2*L**2],
                         [S_x*(L+d_ztail)],
-                        [S_x*(d_ytail+d_lg-R)]])
+                        [S_x*(d_ytail-R)]])
 
     return np.linalg.solve(matrixA,matrixB) #[Fx1, Fx23, Fy1, Fy2, Fy3]
 
@@ -54,17 +54,16 @@ def Momentx(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
     return Forces[2]*step(zlocation-L+L_f1,1)+(Forces[3]+Forces[4])*step(zlocation-L+L_f1+L_f2,1)-q/2*zlocation**2
 
 def Momenty(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
-    return -S_x*d_ztail+Forces[0]*step(zlocation-L+L_f1,1)+Forces[1]*step(zlocation-L+L_f1+L_f2,1)
+    return -S_x*(d_ztail+zlocation)-Forces[0]*step(zlocation-L+L_f1,1)-Forces[1]*step(zlocation-L+L_f1+L_f2,1)
 
 def Torque(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
-    return -S_x*d_ytail+Forces[1]*(d_lg+R)*step(zlocation-L+L_f1+L_f2,0)+Forces[0]*(d_lg+R)*step(zlocation-L+L_f1,0)+(Forces[4]-Forces[3])*L_f3/2*step(zlocation-L+L_f1+L_f2,0)
+    return -S_x*(d_ytail-R)+Forces[1]*(d_lg+R)*step(zlocation-L+L_f1+L_f2,0)+Forces[0]*(d_lg+R)*step(zlocation-L+L_f1,0)+(Forces[4]-Forces[3])*L_f3/2*step(zlocation-L+L_f1+L_f2,0)
 
 print(Momentx(0,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q))
 print(Momenty(L,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q))
 print(Torque(L,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q))
 
 
-for i in np.linspace(0,L,50):
-    print(i)
-    plt.plot(-i,Momenty(i,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q),'ro')
+for i in np.linspace(0,L,100):
+    plt.plot(-i,Torque(i,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q),'ro')
 plt.show()
