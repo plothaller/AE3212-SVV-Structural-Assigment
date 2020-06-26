@@ -1,0 +1,6 @@
+Floor_Ixx = 0.0610583336
+Fuselage_Ixx = 0.097228
+stringer_Ixx = 0.003182835606813844
+stringer_Iyy = 0.0030239999999999998
+Fuselage_Iyy = 0.052749892705925
+Floor_Iyy   = 0.354558415

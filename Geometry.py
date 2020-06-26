@@ -13,6 +13,8 @@ style.use('seaborn-talk') #sets the size of the charts
 style.use('ggplot')
 
 
+
+
 def floor_width(R, h_f):
     return 2*np.sqrt(R**2 - (R-h_f)**2)
 
@@ -39,6 +41,44 @@ def centroid(R, h_f, t_f, t_s, n_s, t_st, h_st, w_st):
     y_bar = (floor_width(R, h_f)*floor_location_y(R, h_f)*t_f)/(total_area(R, t_s, n_s, t_st, h_st, w_st, t_f, h_f))
 
     return x_bar, y_bar
+
+def MOIxx(x_bar, y_bar, stringer_area, R, h_f, t_f, t_s, n_s, t_st, h_st, w_st, w_f):
+    floor_y = floor_location_y(R, h_f)
+    x_bar, y_bar = centroid(R, h_f, t_f, t_s, n_s, t_st, h_st, w_st)
+    
+    floor_y_dist2 = (floor_y - y_bar)**2
+    floor_area = w_f*t_f
+    floor_Ixx =  (w_f*t_f**3)/12 + floor_area*floor_y_dist2
+    
+    fuselage_area = np.pi*R**2 - np.pi*(R-t_s)**2
+    fuselage_Ixx = np.pi/64*(R**4-(R-t_s)**4) + fuselage_area*y_bar**2
+
+    theta = (2*np.pi)/n_s
+    stringer_Ixx = 0
+    for i in range(n_s):
+        height = R*np.sin(i*theta) - y_bar
+        stringer_Ixx += stringer_area*height**2
+    
+    return floor_Ixx, fuselage_Ixx, stringer_Ixx
+
+def MOIyy(x_bar, y_bar, stringer_area, R, h_f, t_f, t_s, n_s, t_st, h_st, w_st, w_f):
+    #floor_y = floor_location_y(R, h_f)
+    #x_bar, y_bar = centroid(R, h_f, t_f, t_s, n_s, t_st, h_st, w_st)
+    
+    #floor_y_dist2 = (floor_y )**2
+    #floor_area = w_f*t_f
+    floor_Iyy =  (w_f**3*t_f)/12 #+ floor_area*floor_y_dist2
+    
+    #fuselage_area = np.pi*R**2 - np.pi*(R-t_s)**2
+    fuselage_Iyy = np.pi/64*(R**4-(R-t_s)**4)# + fuselage_area*y_bar**2
+
+    theta = (2*np.pi)/n_s
+    stringer_Iyy = 0
+    for i in range(n_s):
+        width = R*np.cos(i*theta) #- y_bar
+        stringer_Iyy += stringer_area*width**2
+    
+    return floor_Iyy, fuselage_Iyy, stringer_Iyy
 
 def stringer_distance(R, n_s):
     return (2*np.pi*R)/(n_s)
