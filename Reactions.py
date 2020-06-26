@@ -51,13 +51,13 @@ def step(location,power):
         return 0
 
 def Momentx(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
-    return Forces[2]*step(zlocation-L+L_f1,1)+(Forces[3]+Forces[4])*step(zlocation-L+L_f1+L_f2,1)-q/2*zlocation**2
+    return -1*(Forces[2]*step(zlocation-L+L_f1,1)+(Forces[3]+Forces[4])*step(zlocation-L+L_f1+L_f2,1)-q/2*zlocation**2)
 
 def Momenty(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
     return -S_x*(d_ztail+zlocation)-Forces[0]*step(zlocation-L+L_f1,1)-Forces[1]*step(zlocation-L+L_f1+L_f2,1)
 
 def Torque(zlocation,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q):
-    return -S_x*(d_ytail-R)+Forces[1]*(d_lg+R)*step(zlocation-L+L_f1+L_f2,0)+Forces[0]*(d_lg+R)*step(zlocation-L+L_f1,0)+(Forces[4]-Forces[3])*L_f3/2*step(zlocation-L+L_f1+L_f2,0)
+    return -1*(-S_x*(d_ytail-R)+Forces[1]*(d_lg+R)*step(zlocation-L+L_f1+L_f2,0)+Forces[0]*(d_lg+R)*step(zlocation-L+L_f1,0)+(Forces[4]-Forces[3])*L_f3/2*step(zlocation-L+L_f1+L_f2,0))
 
 print(Momentx(0,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q))
 print(Momenty(L,Forces,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q))
