@@ -77,6 +77,7 @@ def idealization(R, n_s, t_st, h_st, w_st, t_f, h_f, t_s):
     #Stringers
     theta = (2*np.pi)/n_s
 
+
     for i in range(n_s):
 
         stringer = plt.Circle((R*np.sin(i*theta), R*np.cos(i*theta)), 0.05, color='k', fill=True)
