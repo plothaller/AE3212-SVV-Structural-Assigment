@@ -91,7 +91,7 @@ def NormalStressZ(zlocation,Forces,Ixx,Iyy,x,y):
 #PositionOfBooms is a function that sets the position of booms and any of the booms is close to the neutral axis. The tolerance is about 2 degrees
 #REMARK the number of booms will be less than n probably. So remember to use LEN for determining the number of booms
 #Inputs: (n=number of booms),zlocation, array of Forces and moments of inertia
-#Outputs: array angleboomfinal = returns the angle of the position of the booms in DEGREES
+#Outputs: array angleboomfinal = returns the angle of the position of the booms in RADIANS
         # array b = arc distance between each boom in METERS
 def PositionofBooms(n,zlocation,Forces,Ixx,Iyy):
     delta_angle = 360/n * np.pi/180
@@ -105,17 +105,24 @@ def PositionofBooms(n,zlocation,Forces,Ixx,Iyy):
         delta = i*delta_angle
         angleboom = np.append(angleboom,delta)
 
+    angleboomfinal = np.array([])
     for i in range(n):
-        if angleboom[i]<alpha+tolerance and angleboom[i]>alpha-tolerance:
-            angleboomfinal = np.delete(angleboom,i)
-        elif angleboom[i]<alpha+tolerance+np.pi and angleboom[i]>alpha-tolerance+np.pi:
-            angleboomfinal = np.delete(angleboomfinal,i)
+        if alpha - tolerance < angleboom[i] < alpha + tolerance or alpha-tolerance+np.pi<angleboom[i]<alpha+tolerance+np.pi:
+            continue
+        else:
+            angleboomfinal = np.append(angleboomfinal,angleboom[i])
     for i in range(len(angleboomfinal)-1):
         bstep = R*(angleboomfinal[i+1]-angleboomfinal[i])
         b = np.append(b,bstep)
     b = np.append(b,max(b))
+    positions = np.zeros((len(angleboomfinal)+1,2))
 
-    return angleboomfinal,b
+    for i in range(len(angleboomfinal)):
+        positions[i][0] = R*np.cos(angleboomfinal[i])
+        positions[i][1] = R*np.sin(angleboomfinal[i])
+    positions[len(angleboomfinal)][0] = 0
+    positions[len(angleboomfinal)][1] = -R+h_f
+    return angleboomfinal,b,positions
 
 #Same formula from the Geometry file
 def total_stringer_area(R, t_s, n_s, t_st, h_st, w_st, t_f, h_f):
@@ -129,35 +136,46 @@ def SkinBoom1(t_s,b,sigma2,sigma1):
 #AreaBoom computes the area for each boom in the skin in m^2 including the equal contribution of the stringers
 #AreaBoom returns an array with the areas
 #The angle_bool_final and b_array can be deterimined using the function PositionofBooms
+
 def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     numberofboom = len(angle_boom_final)
     area_stringer_average = total_stringer_area(R, t_s, n_s, t_st, h_st, w_st, t_f, h_f) / numberofboom
     areabooms = np.ones(numberofboom) * area_stringer_average
     normalstress_circle = np.array([])
     for step in range(numberofboom):
-        normalstress_circle = np.append(normalstress_circle,NormalStressZ(zlocation,Forces,Ixx,Iyy,R*np.cos(angle_boom_final[step]*np.pi/180),R*np.sin(angle_boom_final[step]*np.pi/180)))
+        normalstress_circle = np.append(normalstress_circle,NormalStressZ(zlocation,Forces,Ixx,Iyy,R*np.cos(angle_boom_final[step]),R*np.sin(angle_boom_final[step])))
+    print(normalstress_circle)
     for step in range(numberofboom):
         if step == numberofboom-1:
             areabooms[step] += SkinBoom1(t_s, b_array[step - 1], normalstress_circle[step - 1],normalstress_circle[step]) + SkinBoom1(t_s, b_array[step],normalstress_circle[0],normalstress_circle[step])
         else:
             areabooms[step] += SkinBoom1(t_s,b_array[step-1],normalstress_circle[step-1],normalstress_circle[step])+SkinBoom1(t_s,b_array[step],normalstress_circle[step+1],normalstress_circle[step])
+    areabooms = np.append(areabooms,t_f*2*np.sqrt(R**2-(R-h_f)**2))
     return areabooms
 
 # for i in np.linspace(0,L,100):
-#     #plt.plot(-i,Momenty(i,Forces),'bo')
+#      plt.plot(-i,Momenty(i,Forces),'bo')
 #
-# #plt.figure(2)
+# plt.figure(2)
 # for i in np.linspace(0,L,100):
 #     if (i==L or i==0):
-#         continue
-#     plt.plot(-i,NeutralAxisAngle(i,Forces,1,1),'ro')
+#          continue
+#      plt.plot(-i,NeutralAxisAngle(i,Forces,1,1),'ro')
 #
 # plt.figure(3)
 # for i in np.linspace(0, L, 100):
-#     if (i == L or i == 0):
-#         continue
-#     plt.plot(-i, NormalStressZ(i,Forces,1,1,R/np.sqrt(2),R/np.sqrt(2)), 'ko')
+#      if (i == L or i == 0):
+#          continue
+#      plt.plot(-i, NormalStressZ(i,Forces,1,1,R/np.sqrt(2),R/np.sqrt(2)), 'ko')
 #
-# #plt.show()
+# plt.show()
 
+print(Momentx(L-1,Forces))
+print(PositionofBooms(8,L-1,Forces,1,1))
+print(AreaBoom(PositionofBooms(8,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(8,L-1,Forces,1,1)[1]))
 #print(AreaBoom(PositionofBooms(10,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(10,L-1,Forces,1,1)[1]))
+
+
+
+print(NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
+print(NormalStressZ(L-1,Forces,1,1,R*np.cos(np.pi/2),R*np.sin(np.pi/2))/NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
