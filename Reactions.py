@@ -26,7 +26,6 @@ w_st = 0.02 #[m]
 safetyfactor = 1.5
 q = W*3*9.81*safetyfactor/L
 S_x = S_x*safetyfactor
-print(S_x)
 
 
 #Inputs: [L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q]
@@ -71,7 +70,7 @@ def Momentx(zlocation,Forces):
 
 #Function Moment in y
 def Momenty(zlocation,Forces):
-    return -S_x*(d_ztail+zlocation)-Forces[0]*step(zlocation-L+L_f1,1)-Forces[1]*step(zlocation-L+L_f1+L_f2,1)
+    return -1*(-S_x*(d_ztail+zlocation)-Forces[0]*step(zlocation-L+L_f1,1)-Forces[1]*step(zlocation-L+L_f1+L_f2,1))
 
 #Function Moment in z
 def Torque(zlocation,Forces): #,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q
@@ -153,8 +152,8 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     areabooms = np.append(areabooms,t_f*2*np.sqrt(R**2-(R-h_f)**2))
     return areabooms
 
-# for i in np.linspace(0,L,100):
-#      plt.plot(-i,Momenty(i,Forces),'bo')
+for i in np.linspace(0,L,100):
+    plt.plot(-i,Torque(i,Forces),'bo')
 #
 # plt.figure(2)
 # for i in np.linspace(0,L,100):
@@ -168,7 +167,7 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
 #          continue
 #      plt.plot(-i, NormalStressZ(i,Forces,1,1,R/np.sqrt(2),R/np.sqrt(2)), 'ko')
 #
-# plt.show()
+plt.show()
 
 print(Momentx(L-1,Forces))
 print(PositionofBooms(8,L-1,Forces,1,1))
