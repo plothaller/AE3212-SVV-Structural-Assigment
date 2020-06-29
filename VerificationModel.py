@@ -80,6 +80,10 @@ def TorqueCase4(zlocation):
     Torque = S_x*d_ztail/L_f2*(d_lg+R)*(step(zlocation-L+L_f1+L_f2,0)-step(zlocation-L+L_f1,0))
     return Torque
 
+
+
+############################################################
+##########FUNCTIONS FOR VERIFICATION########################
 def MomentX_Verification(zlocation,Case1,Case2):
     return MomentXCase1(zlocation,Case1[0],Case1[1])
 
@@ -88,6 +92,11 @@ def MomentY_Verfication(zlocation,Case1,Case2):
 
 def Torque_Verfication(zlocation,Case1,Case2):
     return TorqueCase2(zlocation)+TorqueCase3(zlocation)+TorqueCase4(zlocation)
+
+def J_Verification():
+     J=np.pi*R**4/2+2*np.sqrt(R**2-(R-h_f)**2)*t_f**3*1/3
+     return J
+
 
 for i in np.linspace(0,L,100):
       plt.plot(-i,Torque_Verfication(i,Case1(),Case2()),'bo')
