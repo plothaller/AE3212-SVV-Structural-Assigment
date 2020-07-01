@@ -114,13 +114,17 @@ def PositionofBooms(n,zlocation,Forces,Ixx,Iyy):
         bstep = R*(angleboomfinal[i+1]-angleboomfinal[i])
         b = np.append(b,bstep)
     b = np.append(b,max(b))
-    positions = np.zeros((len(angleboomfinal)+1,2))
+    positions = np.zeros((len(angleboomfinal)+3,2))
 
     for i in range(len(angleboomfinal)):
         positions[i][0] = R*np.cos(angleboomfinal[i])
         positions[i][1] = R*np.sin(angleboomfinal[i])
-    positions[len(angleboomfinal)][0] = 0
-    positions[len(angleboomfinal)][1] = -R+h_f
+    positions[len(angleboomfinal)][0] = -np.sqrt(R**2-(R-h_f)**2)
+    positions[len(angleboomfinal)][1] = -R + h_f
+    positions[len(angleboomfinal)+1][0] = 0
+    positions[len(angleboomfinal)+1][1] = -R + h_f
+    positions[len(angleboomfinal)+2][0] = np.sqrt(R**2-(R-h_f)**2)
+    positions[len(angleboomfinal)+2][1] = -R + h_f
     return angleboomfinal,b,positions
 
 #Same formula from the Geometry file
@@ -149,7 +153,10 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
             areabooms[step] += SkinBoom1(t_s, b_array[step - 1], normalstress_circle[step - 1],normalstress_circle[step]) + SkinBoom1(t_s, b_array[step],normalstress_circle[0],normalstress_circle[step])
         else:
             areabooms[step] += SkinBoom1(t_s,b_array[step-1],normalstress_circle[step-1],normalstress_circle[step])+SkinBoom1(t_s,b_array[step],normalstress_circle[step+1],normalstress_circle[step])
-    areabooms = np.append(areabooms,t_f*2*np.sqrt(R**2-(R-h_f)**2))
+    areafloor = t_f*2*np.sqrt(R**2-(R-h_f)**2)
+    areabooms = np.append(areabooms, areafloor / 3)
+    areabooms = np.append(areabooms, areafloor / 3)
+    areabooms = np.append(areabooms, areafloor / 3)
     return areabooms
 
 for i in np.linspace(0,L,100):
