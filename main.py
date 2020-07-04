@@ -1,4 +1,5 @@
 import Geometry
+import numpy as np
 
 n_s  = 16
 R    = 3
@@ -9,8 +10,13 @@ t_f  = 2.5/100
 L    = 30
 Lf1  = 2
 Lf2  = 16
-h_f  = 1.85
-t_s  = 1/100
+h_f  = 1.85 #hieght of floor
+y_f = R-h_f #y-loc of floor if origin if circle center
+gamma_f = np.arcsin(y_f/R) #angle between x-axis and floor
+theta_f = np.pi - 2*gamma_f #angle of sector with floor
+A_II = (R**2/2)*(theta_f - np.sin(theta_f)) # Area Cell II
+A_I = (np.pi*R**2) - A_II #Area Cell I
+t_s = 1/100
 w_f = Geometry.floor_width(R, h_f)
 stringer_area = t_st*(h_st + w_st)
 
