@@ -68,7 +68,7 @@ def celldivision(positionsofbooms, areaofbooms, gamma_f):
 
 
 #Deflection due to Shear
-def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f):
+def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f,gamma_f)
     '''
     Calclulates the shear flows due to shear force
     :param S_x: shear flow
@@ -84,7 +84,7 @@ def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, 
     '''
 
     #transformations
-    thetas1, thetas2, s1, s2, B1, B2, pos1, pos2 = celldivision(positionsofbooms, areaofbooms)
+    thetas1, thetas2, s1, s2, B1, B2, pos1, pos2 = celldivision(positionsofbooms, areaofbooms, gamma_f)
     thetas = np.append(thetas1,thetas2)
 
     #base shear
