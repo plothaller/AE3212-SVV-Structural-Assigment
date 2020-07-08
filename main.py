@@ -53,7 +53,11 @@ for zlocation in np.arange(z_distance,L,z_distance):
     booms_area = reac.AreaBoom(booms_angle,zlocation,Ixx_total,Iyy_total,booms_distance)
     delta_T,q1,q2 = tors.deflect_T(1, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
     J = tors.J(1,delta_T)
-
+    Mx = reac.Momentx(zlocation,Forces)
+    Sy = reac.Sheary(zlocation,Forces)
+    My = reac.Momenty(zlocation,Forces)
+    Sx = reac.Shearx(zlocation,Forces)
+    T = reac.Torque(zlocation,Forces)
 
     #ShearCalcliations
     delta_Sx, q1_sx, q2_sx = tors.shearflowsb(S_x, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)

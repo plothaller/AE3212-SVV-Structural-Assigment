@@ -68,9 +68,17 @@ def step(location,power):
 def Momentx(zlocation,Forces):
     return -1*(Forces[2]*step(zlocation-L+L_f1,1)+(Forces[3]+Forces[4])*step(zlocation-L+L_f1+L_f2,1)-q/2*zlocation**2)
 
+#Function Shear in y
+def Sheary(zlocation,Forces):
+    return -Forces[2]/2*step(zlocation-L+L_f1,2)-(Forces[3]+Forces[4])/2*step(zlocation-L+L_f1+L_f2,2)+q/6*zlocation**3
+
 #Function Moment in y
 def Momenty(zlocation,Forces):
     return -1*(-S_x*(d_ztail+zlocation)-Forces[0]*step(zlocation-L+L_f1,1)-Forces[1]*step(zlocation-L+L_f1+L_f2,1))
+
+#Function Shear in x
+def Shearx(zlocation,Forces):
+    return S_x*(d_ztail*zlocation+zlocation**2/2)+Forces[0]/2*step(zlocation-L+L_f1,2)+Forces[1]/2*step(zlocation-L+L_f1+L_f2,2)
 
 #Function Moment in z
 def Torque(zlocation,Forces): #,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q
