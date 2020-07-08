@@ -147,7 +147,6 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     normalstress_circle = np.array([])
     for step in range(numberofboom):
         normalstress_circle = np.append(normalstress_circle,NormalStressZ(zlocation,Forces,Ixx,Iyy,R*np.cos(angle_boom_final[step]),R*np.sin(angle_boom_final[step])))
-    print(normalstress_circle)
     for step in range(numberofboom):
         if step == numberofboom-1:
             areabooms[step] += SkinBoom1(t_s, b_array[step - 1], normalstress_circle[step - 1],normalstress_circle[step]) + SkinBoom1(t_s, b_array[step],normalstress_circle[0],normalstress_circle[step])
@@ -159,8 +158,8 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     areabooms = np.append(areabooms, areafloor / 3)
     return areabooms
 
-for i in np.linspace(0,L,100):
-    plt.plot(-i,Torque(i,Forces),'bo')
+#for i in np.linspace(0,L,100):
+#    plt.plot(-i,Torque(i,Forces),'bo')
 #
 # plt.figure(2)
 # for i in np.linspace(0,L,100):
@@ -174,14 +173,14 @@ for i in np.linspace(0,L,100):
 #          continue
 #      plt.plot(-i, NormalStressZ(i,Forces,1,1,R/np.sqrt(2),R/np.sqrt(2)), 'ko')
 #
-plt.show()
+#plt.show()
 
-print(Momentx(L-1,Forces))
-print(PositionofBooms(8,L-1,Forces,1,1))
-print(AreaBoom(PositionofBooms(8,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(8,L-1,Forces,1,1)[1]))
+#print(Momentx(L-1,Forces))
+#print(PositionofBooms(8,L-1,Forces,1,1))
+#print(AreaBoom(PositionofBooms(8,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(8,L-1,Forces,1,1)[1]))
 #print(AreaBoom(PositionofBooms(10,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(10,L-1,Forces,1,1)[1]))
 
 
 
-print(NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
-print(NormalStressZ(L-1,Forces,1,1,R*np.cos(np.pi/2),R*np.sin(np.pi/2))/NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
+#print(NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
+#print(NormalStressZ(L-1,Forces,1,1,R*np.cos(np.pi/2),R*np.sin(np.pi/2))/NormalStressZ(L-1,Forces,1,1,R*np.cos(0.78539816),R*np.sin(0.78539816)))
