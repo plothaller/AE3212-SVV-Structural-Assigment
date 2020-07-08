@@ -192,8 +192,8 @@ def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f,gamma_f):
 
     M = np.array([[2*A_I, 2*A_II, 0],
                  [q_1_I, q_2_I, -1],
-                 [q_1_II, q_2_II, -1]])
-    M1 = np.array([T,0,0])
+                 [q_1_II, q_2_II, -1]], dtype='float')
+    M1 = np.array([T,0,0], dtype='float')
     q1, q2, delta_T = np.linalg.solve(M,M1)
 
 
@@ -202,9 +202,15 @@ def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f,gamma_f):
 def J(T, delta_T):
     return T/( delta_T)
 
-def simga_z(Mx,My, Ixx,Iyy,positionsofbooms, areaofbooms, gamma_f):
+def simga_b(Mx,My, Ixx,Iyy,positionsofbooms, areaofbooms, gamma_f):
+    thetas1, thetas2, s1, s2, B1, B2, pos1, pos2 = celldivision(positionsofbooms, areaofbooms, gamma_f)
+    pos = np.append(pos1[:-3], pos2[:-3], axis=0)
+    pos = np.append(pos, np.subtract(pos1[-3:], pos2[-3:]), axis=0)
+    sigma_z = np.array([])
+    for i in range(len(pos)):
+        sigma = Mx/Ixx*pos[i][1]+My/Iyy*pos[i][0]
+        sigma_z = np.append(sigma_z, sigma)
 
-    sigma_z =Mx/Ixx*y+My/Iyy
     return sigma_z
 
 def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
@@ -227,10 +233,10 @@ def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     tao1 = q[:-3] / t_sk
     tao2 = q[-3:] / t_f
     tao = np.append(tao1,tao2)
-
-
-    return np.sqrt(sigma_b**2 + 3*tao**2)
-
-
+    vonmis = np.array([])
+    for i in range(len(tao)):
+        s = np.sqrt(sigma_b[i]**2 + 3*tao[i]**2)
+        vonmis = np.append(vonmis,s)
+    return vonmis
 
 

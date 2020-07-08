@@ -46,7 +46,7 @@ Iyy_total = floor_Iyy+fuselage_Iyy+stringer_Iyy
 Forces = reac.ReactionsFunction(L,Lf1,Lf2,Lf3,d_lg,d_ztail,d_ytail,S_x,q)
 
 z_distance = 2
-number_booms = 50
+number_booms = 51
 
 for zlocation in np.arange(z_distance,L,z_distance):
     position_of_booms_total = booms_angle,booms_distance,booms_position = reac.PositionofBooms(number_booms,zlocation,Forces,Ixx_total,Iyy_total)
@@ -63,4 +63,5 @@ for zlocation in np.arange(z_distance,L,z_distance):
     #ShearCalcliations
     delta_Sx, q1_sx, q2_sx = tors.shearflowsb(S_x, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)
     delta_Tf, q1_T, q2_T = tors.deflect_T(T, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
+    sigma_b = tors.simga_b(Mx, My, Ixx_total, Iyy_total, position_of_booms_total, booms_area, gamma_f)
     vonMises = tors.vonMises(q1_sx,q2_sx, q1_T, q2_T , sigma_b, t_s, t_f)
