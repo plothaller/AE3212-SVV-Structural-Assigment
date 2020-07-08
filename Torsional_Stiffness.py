@@ -68,7 +68,7 @@ def celldivision(positionsofbooms, areaofbooms, gamma_f):
 
 
 #Deflection due to Shear
-def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f,gamma_f)
+def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f,gamma_f):
     '''
     Calclulates the shear flows due to shear force
     :param S_x: shear flow
@@ -165,7 +165,7 @@ def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, 
 
 #Deflection due to torsion
 
-def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f):
+def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f,gamma_f):
     '''
     Sheart due to torsion
     :param T: Torsion
@@ -178,7 +178,7 @@ def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f):
     :return:
     GdO/dz, shear flow cell I and cell II
     '''
-    thetas1,thetas2,s1,s2,B1,B2,pos1,pos2 = celldivision(positionsofbooms, areaofbooms)
+    thetas1,thetas2,s1,s2,B1,B2,pos1,pos2 = celldivision(positionsofbooms, areaofbooms,gamma_f)
 
     s_I = s1[:-3]
     s_IwII = s1[3:]
@@ -202,6 +202,11 @@ def deflect_T(T, A_I, A_II, positionsofbooms, areaofbooms, t_sk, t_f):
 def J(T, delta_T):
     return T/( delta_T)
 
+def simga_z(Mx,My, Ixx,Iyy,positionsofbooms, areaofbooms, gamma_f):
+
+    sigma_z =Mx/Ixx*y+My/Iyy
+    return sigma_z
+
 def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     '''
     Calculates von Mises stresses
@@ -223,14 +228,9 @@ def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     tao2 = q[-3:] / t_f
     tao = np.append(tao1,tao2)
 
+
     return np.sqrt(sigma_b**2 + 3*tao**2)
 
 
 
-a = PositionofBooms(15,L-1,Forces,1,1)
-b = AreaBoom(PositionofBooms(15,L-1,Forces,1,1)[0],L-1,1,1,PositionofBooms(15,L-1,Forces,1,1)[1])
-
-c = deflect_T(20, 6, 6, a, b, t_s, t_f)
-
-J = J(20, c[0])
 

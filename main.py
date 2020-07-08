@@ -1,6 +1,7 @@
 import Geometry
 import numpy as np
 import Reactions as reac
+import Torsional_Stiffness as tors
 
 L = 30 #[m]
 Lf1 = 4 #[m]
@@ -50,3 +51,11 @@ number_booms = 50
 for zlocation in np.arange(z_distance,L,z_distance):
     position_of_booms_total = booms_angle,booms_distance,booms_position = reac.PositionofBooms(number_booms,zlocation,Forces,Ixx_total,Iyy_total)
     booms_area = reac.AreaBoom(booms_angle,zlocation,Ixx_total,Iyy_total,booms_distance)
+    delta_T,q1,q2 = tors.deflect_T(1, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
+    J = tors.J(1,delta_T)
+
+
+    #ShearCalcliations
+    delta_Sx, q1_sx, q2_sx = tors.shearflowsb(S_x, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)
+    delta_Tf, q1_T, q2_T = tors.deflect_T(T, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
+    vonMises = tors.vonMises(q1_sx,q2_sx, q1_T, q2_T , sigma_b, t_s, t_f)
