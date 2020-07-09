@@ -68,7 +68,7 @@ def celldivision(positionsofbooms, areaofbooms, gamma_f):
 
 
 #Deflection due to Shear
-def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f,gamma_f):
+def shearflowsb(S_x,S_y, I_xx, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, y_f,gamma_f):
     '''
     Calclulates the shear flows due to shear force
     :param S_x: shear flow
@@ -90,13 +90,18 @@ def shearflowsb(S_x, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t_sk, t_f, 
     #base shear
     qb1 = np.array([0])
     qb2 = np.array([0])
-    K = S_x/I_yy
+    Kx = S_x/I_yy
+    Ky = S_y/I_xx
     for i in range(len(pos1[:, 1])):
-        q = K * B1[i] * pos1[i][0] + qb1[i]
+        qx = Kx * B1[i] * pos1[i][0]
+        qy = Ky * B1[i] * pos1[i][1]
+        q = -qx -qy + qb1[i]
         qb1 = np.append(qb1, q)
     qb1 = np.delete(qb1, 1)
     for i in range(len(pos2[:, 1])):
-        q = K * B2[i] * pos2[i][0] + qb2[i]
+        qx = Kx * B2[i] * pos2[i][0]
+        qy = Ky * B2[i] * pos2[i][1]
+        q = qx + qy + qb2[i]
         qb2 = np.append(qb2, q)
     qb2 = np.delete(qb2, 1)
     qb = np.append(qb1[:-3], qb2[:-3])
