@@ -2,6 +2,8 @@ import Geometry
 import numpy as np
 import Reactions as reac
 import Torsional_Stiffness as tors
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 L = 30 #[m]
 Lf1 = 4 #[m]
@@ -20,6 +22,9 @@ t_f = 0.02 #[m]
 t_st = 0.0012 #[m]
 h_st = 0.015 #[m]
 w_st = 0.02 #[m]
+
+fig = plt.figure()
+ax = fig.gca(projection='3d')
 
 y_f = R-h_f #y-loc of floor if origin if circle center
 gamma_f = np.arcsin(y_f/R) #angle between x-axis and floor
@@ -65,3 +70,16 @@ for zlocation in np.arange(z_distance,L,z_distance):
     delta_Tf, q1_T, q2_T = tors.deflect_T(T, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
     sigma_b = tors.simga_b(Mx, My, Ixx_total, Iyy_total, position_of_booms_total, booms_area, gamma_f)
     vonMises = tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f)
+
+    position_x = []
+    position_y = []
+    position_z = []
+    for booms in range(len(booms_position)):
+        position_x.append(booms_position[booms][0])
+        position_y.append(booms_position[booms][1])
+        position_z.append(zlocation)
+    surf = ax.scatter(position_x, position_y, position_z, c=vonMises)
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.show()
+
+

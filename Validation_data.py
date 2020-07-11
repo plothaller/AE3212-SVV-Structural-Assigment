@@ -3,7 +3,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import operator
 
-with open ('Validation\sorted_data.txt') as val_data:
+with open ('sorted_data.txt') as val_data:
     header = 1
     data_points = 14760
     lines =  val_data.readlines()[header:header+data_points]
@@ -34,6 +34,7 @@ with open ('Validation\sorted_data.txt') as val_data:
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #ax.plot(x, y, z, zdir = 'z', c= 'r')
-    ax.scatter(x, y, z, c = vmavg)
+    surf = ax.scatter(x, y, z, c = vmavg)
+    fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.axis('off')
     plt.show()
