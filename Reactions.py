@@ -70,7 +70,7 @@ def Momentx(zlocation,Forces):
 
 #Function Shear in y
 def Sheary(zlocation,Forces):
-    return -Forces[2]/2*step(zlocation-L+L_f1,2)-(Forces[3]+Forces[4])/2*step(zlocation-L+L_f1+L_f2,2)+q/6*zlocation**3
+    return Forces[2]*step(zlocation-L+L_f1,0)+(Forces[3]+Forces[4])*step(zlocation-L+L_f1+L_f2,0)-q*zlocation
 
 #Function Moment in y
 def Momenty(zlocation,Forces):
@@ -78,7 +78,7 @@ def Momenty(zlocation,Forces):
 
 #Function Shear in x
 def Shearx(zlocation,Forces):
-    return S_x*(d_ztail*zlocation+zlocation**2/2)+Forces[0]/2*step(zlocation-L+L_f1,2)+Forces[1]/2*step(zlocation-L+L_f1+L_f2,2)
+    return S_x+Forces[0]*step(zlocation-L+L_f1,0)+Forces[1]*step(zlocation-L+L_f1+L_f2,0)
 
 #Function Moment in z
 def Torque(zlocation,Forces): #,L,L_f1,L_f2,L_f3,d_lg,d_ztail,d_ytail,S_x,q
@@ -167,8 +167,9 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     return areabooms
 
 #for i in np.linspace(0,L,100):
-#    plt.plot(-i,Torque(i,Forces),'bo')
-#
+#    plt.plot(-i,Shearx(i,Forces),'bo')
+#plt.show()
+
 # plt.figure(2)
 # for i in np.linspace(0,L,100):
 #     if (i==L or i==0):
@@ -176,7 +177,7 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
 #      plt.plot(-i,NeutralAxisAngle(i,Forces,1,1),'ro')
 #
 # plt.figure(3)
-# for i in np.linspace(0, L, 100):
+#for i in np.linspace(0, L, 100):
 #      if (i == L or i == 0):
 #          continue
 #      plt.plot(-i, NormalStressZ(i,Forces,1,1,R/np.sqrt(2),R/np.sqrt(2)), 'ko')
