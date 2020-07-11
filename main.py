@@ -50,8 +50,13 @@ Iyy_total = floor_Iyy+fuselage_Iyy+stringer_Iyy
 
 Forces = reac.ReactionsFunction(L,Lf1,Lf2,Lf3,d_lg,d_ztail,d_ytail,S_x,q)
 
-z_distance = 2
-number_booms = 51
+z_distance = 0.5
+number_booms = 200
+
+position_x = []
+position_y = []
+position_z = []
+vonMises_list = []
 
 for zlocation in np.arange(z_distance,L,z_distance):
     position_of_booms_total = booms_angle,booms_distance,booms_position = reac.PositionofBooms(number_booms,zlocation,Forces,Ixx_total,Iyy_total)
@@ -71,14 +76,13 @@ for zlocation in np.arange(z_distance,L,z_distance):
     sigma_b = tors.simga_b(Mx, My, Ixx_total, Iyy_total, position_of_booms_total, booms_area, gamma_f)
     vonMises = tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f)
 
-    position_x = []
-    position_y = []
-    position_z = []
     for booms in range(len(booms_position)):
         position_x.append(booms_position[booms][0])
         position_y.append(booms_position[booms][1])
         position_z.append(zlocation)
-    surf = ax.scatter(position_x, position_y, position_z, c=vonMises)
+        vonMises_list.append(vonMises[booms])
+
+surf = ax.scatter(position_x, position_y, position_z, c=vonMises_list)
 fig.colorbar(surf, shrink=0.5, aspect=5)
 plt.show()
 
