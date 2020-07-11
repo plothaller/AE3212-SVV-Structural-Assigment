@@ -78,7 +78,8 @@ for zlocation in np.arange(z_distance,L,z_distance):
         position_x.append(booms_position[booms][0])
         position_y.append(booms_position[booms][1])
         position_z.append(zlocation)
-    ax.scatter(position_x, position_y, position_z, c=vonMises)
+    surf = ax.scatter(position_x, position_y, position_z, c=vonMises)
+fig.colorbar(surf, shrink=0.5, aspect=5)
 plt.show()
 
 
