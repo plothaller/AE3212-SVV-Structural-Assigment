@@ -34,6 +34,7 @@ with open ('sorted_data.txt') as val_data:
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #ax.plot(x, y, z, zdir = 'z', c= 'r')
-    ax.scatter(x, y, z, c = vmavg)
+    surf = ax.scatter(x, y, z, c = vmavg)
+    fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.axis('off')
     plt.show()
