@@ -3,7 +3,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import operator
 
-with open ('Validation\Validation_load_case.txt') as val_data:
+with open ('Validation_load_case.txt') as val_data:
     header = 15
     data_points = 14760
     lines =  val_data.readlines()[header:header+data_points]
@@ -35,7 +35,7 @@ with open ('Validation\Validation_load_case.txt') as val_data:
     
     sorted_d = dict(sorted(x_dict.items(), key=operator.itemgetter(1)))
 
-with open ('Validation\Validation_load_case.txt') as val_data:
+with open ('Validation_load_case.txt') as val_data:
     header2 = header+data_points+10
     data_points2 = 14760
     lines =  val_data.readlines()[header2:header2+data_points2]
