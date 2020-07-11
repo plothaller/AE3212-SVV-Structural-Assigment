@@ -242,6 +242,6 @@ def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     for i in range(len(tao)):
         s = np.sqrt(sigma_b[i]**2 + 3*tao[i]**2)
         vonmis = np.append(vonmis,s)
-    return vonmis
+    return tao
 
 
