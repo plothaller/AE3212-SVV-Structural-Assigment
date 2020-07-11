@@ -42,7 +42,7 @@ d = tors.shearflowsb(Sx,Sy, I_xx, I_yy, A_I, A_II, b, a, t_s, t_f, y_f,gamma_f)
 plt.scatter(pos1[:,0],pos1[:,1], c=d[1] , label = 'Cell I')
 plt.scatter(pos2[:,0],pos2[:,1],  c=d[2], label = 'Cell II')
 plt.title('Geometry with $h_f = 2$')
-plt.xlabel('x coodirnate [m]')
+plt.xlabel('x coordinate [m]')
 plt.ylabel('y coordinate [m]')
 plt.legend()
 

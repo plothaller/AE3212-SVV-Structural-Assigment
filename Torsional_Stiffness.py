@@ -230,10 +230,10 @@ def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     :param t_f: floor thickness
     :return: von Mises stresses
     '''
-    q1 = q1_s +q1_t
+    q1 = q1_s + q1_t
     q2 = q2_s + q2_t
     q = np.append(q1[:-3], q2[:-3])
-    q = np.append(q, np.subtract(q1[-3:], q2[-3:]))
+    q = np.append(q, (q1[-3:]))
 
     tao1 = q[:-3] / t_sk
     tao2 = q[-3:] / t_f
@@ -242,6 +242,6 @@ def vonMises(q1_s,q2_s, q1_t, q2_t , sigma_b, t_sk, t_f):
     for i in range(len(tao)):
         s = np.sqrt(sigma_b[i]**2 + 3*tao[i]**2)
         vonmis = np.append(vonmis,s)
-    return tao
+    return vonmis
 
 
