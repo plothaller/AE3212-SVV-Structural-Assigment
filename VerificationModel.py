@@ -87,10 +87,16 @@ def TorqueCase4(zlocation):
 def MomentX_Verification(zlocation,Case1,Case2):
     return MomentXCase1(zlocation,Case1[0],Case1[1])
 
-def MomentY_Verfication(zlocation,Case1,Case2):
+def ShearY_Verification(zlocation,Case1,Case2):
+    return ShearYCase1(zlocation,Case1[0],Case1[1])
+
+def MomentY_Verification(zlocation,Case1,Case2):
     return MomentYCase2(zlocation,Case2[0],Case2[1])+MomentYCase4(zlocation)
 
-def Torque_Verfication(zlocation,Case1,Case2):
+def ShearX_Verification(zlocation,Case1,Case2):
+    return ShearXCase2(zlocation,Case2[0],Case2[1])+ShearXCase4(zlocation)
+
+def Torque_Verification(zlocation,Case1,Case2):
     return TorqueCase2(zlocation)+TorqueCase3(zlocation)+TorqueCase4(zlocation)
 
 def J_Verification():
@@ -98,5 +104,5 @@ def J_Verification():
      return J
 
 for i in np.linspace(0,L,100):
-      plt.plot(-i,Torque_Verfication(i,Case1(),Case2()),'bo')
+      plt.plot(-i,ShearX_Verification(i,Case1(),Case2()),'bo')
 plt.show()
