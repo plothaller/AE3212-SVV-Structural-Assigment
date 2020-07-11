@@ -26,7 +26,7 @@ def celldivision(positionsofbooms, areaofbooms, gamma_f):
     pos3 = np.array([[0,0]])
 
     ag_1 = np.pi + gamma_f
-    ag_2 = np.pi*2 - gamma_f
+    ag_2 = 2*np.pi - gamma_f
 
     for i in range(len(positionsofbooms[0])):
         if  ag_1 < positionsofbooms[0][i] < ag_2:
