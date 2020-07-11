@@ -60,7 +60,7 @@ def celldivision(positionsofbooms, areaofbooms, gamma_f):
     B1 = np.append(B1,areaofbooms[-3:])
     B2 = np.append(B2, areaofbooms[-3:])
     pos1 = np.append(pos1, positionsofbooms[2][-3:], axis = 0)
-    pos2 = np.append(pos2, np.flip(positionsofbooms[2][-3:]), axis=0)
+    pos2 = np.append(pos2, np.flip(positionsofbooms[2][-3:], axis = 0), axis=0)
 
 
 
