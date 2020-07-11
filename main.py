@@ -50,8 +50,8 @@ Iyy_total = floor_Iyy+fuselage_Iyy+stringer_Iyy
 
 Forces = reac.ReactionsFunction(L,Lf1,Lf2,Lf3,d_lg,d_ztail,d_ytail,S_x,q)
 
-z_distance = 1
-number_booms = 101
+z_distance = 2
+number_booms = 51
 
 for zlocation in np.arange(z_distance,L,z_distance):
     position_of_booms_total = booms_angle,booms_distance,booms_position = reac.PositionofBooms(number_booms,zlocation,Forces,Ixx_total,Iyy_total)
