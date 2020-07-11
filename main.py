@@ -60,8 +60,8 @@ for zlocation in np.arange(z_distance,L,z_distance):
     Sx = reac.Shearx(zlocation,Forces)
     T = reac.Torque(zlocation,Forces)
 
-    #ShearCalcliations
-    delta_Sx, q1_sx, q2_sx = tors.shearflowsb(S_x, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)
+    #Shear
+    delta_S, q1_s, q2_s = tors.shearflowsb(Sx, Sy, Ixx_total, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)
     delta_Tf, q1_T, q2_T = tors.deflect_T(T, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
     sigma_b = tors.simga_b(Mx, My, Ixx_total, Iyy_total, position_of_booms_total, booms_area, gamma_f)
-    vonMises = tors.vonMises(q1_sx,q2_sx, q1_T, q2_T , sigma_b, t_s, t_f)
+    vonMises = tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f)
