@@ -47,11 +47,12 @@ floor_Iyy, fuselage_Iyy, stringer_Iyy = Geometry.MOIyy(x_bar, y_bar, stringer_ar
 
 Ixx_total = floor_Ixx+fuselage_Ixx+stringer_Ixx
 Iyy_total = floor_Iyy+fuselage_Iyy+stringer_Iyy
+print('h',Iyy_total)
 
 Forces = reac.ReactionsFunction(L,Lf1,Lf2,Lf3,d_lg,d_ztail,d_ytail,S_x,q)
 
 z_distance = 0.5
-number_booms = 200
+number_booms = 500
 
 position_x = []
 position_y = []
@@ -74,7 +75,7 @@ for zlocation in np.arange(z_distance,L,z_distance):
     delta_S, q1_s, q2_s = tors.shearflowsb(Sx, Sy, Ixx_total, Iyy_total, A_I, A_II, booms_area, position_of_booms_total, t_s, t_f, y_f, gamma_f)
     delta_Tf, q1_T, q2_T = tors.deflect_T(T, A_I, A_II, position_of_booms_total, booms_area, t_s, t_f, gamma_f)
     sigma_b = tors.simga_b(Mx, My, Ixx_total, Iyy_total, position_of_booms_total, booms_area, gamma_f)
-    vonMises = tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f)
+    vonMises = tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f) #tors.vonMises(q1_s,q2_s, q1_T, q2_T , sigma_b, t_s, t_f)
 
     for booms in range(len(booms_position)):
         position_x.append(booms_position[booms][0])

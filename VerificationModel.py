@@ -103,6 +103,11 @@ def J_Verification():
      J=np.pi*2*t_s*R**3+2*np.sqrt(R**2-(R-h_f)**2)*t_f**3*1/3
      return J
 
+numbermax = 0
+numbermin = 0
 for i in np.linspace(0,L,100):
-      plt.plot(-i,ShearX_Verification(i,Case1(),Case2()),'bo')
+      plt.plot(-i,Torque_Verification(i,Case1(),Case2()),'ro')
+      numbermax = max(Torque_Verification(i,Case1(),Case2()),numbermax)
+      numbermin = min(Torque_Verification(i,Case1(),Case2()),numbermin)
 plt.show()
+print(numbermax,numbermin)

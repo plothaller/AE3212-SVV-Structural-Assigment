@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 #Inputs from Description Assignments
 L = 30 #[m]
@@ -166,9 +167,21 @@ def AreaBoom(angle_boom_final,zlocation,Ixx,Iyy,b_array):
     areabooms = np.append(areabooms, areafloor / 3)
     return areabooms
 
-#for i in np.linspace(0,L,100):
-#    plt.plot(-i,Shearx(i,Forces),'bo')
-#plt.show()
+numbermax = 0
+numbermin = 0
+for i in np.linspace(0,L,100):
+    plt.plot(-i,Torque(i,Forces),'bo')
+    numbermax = max(Torque(i,Forces),numbermax)
+    numbermin = min(Torque(i,Forces),numbermin)
+red_patch = mpatches.Patch(color='red', label='Verification Model')
+blue_patch = mpatches.Patch(color='blue', label='Numerical Model')
+plt.legend(handles=[red_patch, blue_patch])
+plt.title("Torque")
+plt.ylabel("Moment [Nm]")
+plt.xlabel("Distance [m]")
+plt.grid()
+plt.show()
+print(numbermax,numbermin)
 
 # plt.figure(2)
 # for i in np.linspace(0,L,100):
