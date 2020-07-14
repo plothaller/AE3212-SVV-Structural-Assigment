@@ -101,12 +101,12 @@ def shearflowsb(S_x,S_y, I_xx, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t
     for i in range(len(pos2[:, 1])):
         qx = Kx * B2[i] * pos2[i][0]
         qy = Ky * B2[i] * pos2[i][1]
-        q = qx + qy + qb2[i]
+        q = -qx - qy + qb2[i]
         qb2 = np.append(qb2, q)
     qb2 = np.delete(qb2, 1)
     qb = np.append(qb1[:-3], qb2[:-3])
 
-    qb = np.append(qb, np.subtract(qb1[-3:], qb2[-3:])) #last 3 are floor
+    qb = np.append(qb, qb2[-3:]) #last 3 are floor
 
     #Moment around origin
     moment = 0
@@ -153,9 +153,9 @@ def shearflowsb(S_x,S_y, I_xx, I_yy, A_I, A_II, areaofbooms, positionsofbooms, t
 
     M = np.array([[2*A_I, 2*A_II, 0],
                  [q01_1, q02_1, firstcoeff_1],
-                 [q01_2, q02_2, firstcoeff_2]])
+                 [q01_2, q02_2, firstcoeff_2]], dtype='float')
 
-    M1 = np.array([moment, 0, 0])
+    M1 = np.array([moment, 0, 0], dtype='float')
 
     q01, q02, delta_S = np.linalg.solve(M,M1)
 
