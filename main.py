@@ -47,7 +47,6 @@ floor_Iyy, fuselage_Iyy, stringer_Iyy = Geometry.MOIyy(x_bar, y_bar, stringer_ar
 
 Ixx_total = floor_Ixx+fuselage_Ixx+stringer_Ixx
 Iyy_total = floor_Iyy+fuselage_Iyy+stringer_Iyy
-print('h',Iyy_total)
 
 Forces = reac.ReactionsFunction(L,Lf1,Lf2,Lf3,d_lg,d_ztail,d_ytail,S_x,q)
 
@@ -85,6 +84,10 @@ for zlocation in np.arange(z_distance,L,z_distance):
 
 surf = ax.scatter(position_x, position_y, position_z, c=vonMises_list)
 fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.title("von Mises - Numerical Model")
+ax.set_xlabel('x [m]')
+ax.set_ylabel("y [m]")
+ax.set_zlabel("z [m]")
 plt.show()
 
 

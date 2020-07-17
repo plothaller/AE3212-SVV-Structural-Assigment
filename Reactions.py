@@ -180,8 +180,8 @@ plt.title("Torque")
 plt.ylabel("Moment [Nm]")
 plt.xlabel("Distance [m]")
 plt.grid()
-plt.show()
-print(numbermax,numbermin)
+#plt.show()
+#(numbermax,numbermin)
 
 # plt.figure(2)
 # for i in np.linspace(0,L,100):
